@@ -1,4 +1,4 @@
-# product_listing_app
+# ac-ecommerce
 
 A Django backend for an e-commerce platform, featuring user registration, JWT authentication, and modular apps for accounts, products, portfolio, contact, and orders. Built with Django REST Framework and ready for secure API development.
 
@@ -22,8 +22,8 @@ A Django backend for an e-commerce platform, featuring user registration, JWT au
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/yourusername/product_listing_app.git
-   cd product_listing_app
+   git clone https://github.com/GauravSharmaCode/ac-ecommerce.git
+   cd ac-ecommerce
    ```
 
 2. **Create and activate a virtual environment**
