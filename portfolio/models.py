@@ -4,7 +4,7 @@ from django.db import models
 class Portfolio(models.Model):
     name = models.CharField(max_length=100)
     website = models.URLField(blank=True)
-    logo = models.ImageField(upload_to='clients_logos/')
+    logo = models.ImageField(upload_to='media/clients_logos/')
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
