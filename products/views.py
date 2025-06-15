@@ -1,14 +1,18 @@
-from django.shortcuts import render
 from rest_framework import generics, filters, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_list_or_404
 
 from .models import Product
 from .serializers import ProductSerializer
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
+    """
+    API view to list all products or create a new one.
+    Supports search and ordering.
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -18,24 +22,27 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
 
 class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API view to retrieve, update, or delete a product by ID.
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ProductByCategoryAPIView(APIView):
+    """
+    API view to return products by a given category.
+    """
+
     def get(self, request, category):
-        """
-        Retrieve a list of products filtered by the specified category.
+        products = Product.objects.filter(category__iexact=category)
 
-        Args:
-            request: The HTTP request object.
-            category (str): The category by which to filter products.
+        if not products.exists():
+            return Response(
+                {"detail": f"No products found in category '{category}'."},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
-        Returns:
-            Response: A Response object containing serialized data of products
-            in the specified category.
-        """
-        products = Product.objects.filter(category=category)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
